@@ -17,20 +17,10 @@ PDFJS.workerSrc = './shared/pdf.worker.js';
 
 // Render stuff
 let NUM_PAGES = 0;
-let renderedPages = [];
-let okToRender = false;
 document.getElementById('content-wrapper').addEventListener('scroll', function (e) {
   let visiblePageNum = Math.round(e.target.scrollTop / PAGE_HEIGHT) + 1;
   let visiblePage = document.querySelector(`.page[data-page-number="${visiblePageNum}"][data-loaded="false"]`);
-
-  if (renderedPages.indexOf(visiblePageNum) == -1){
-    okToRender = true;
-    renderedPages.push(visiblePageNum);
-  } else {
-    okToRender = false;
-  }
-
-  if (visiblePage && okToRender) {
+  if (visiblePage) {
     setTimeout(function () {
       UI.renderPage(visiblePageNum, RENDER_OPTIONS);
     });
